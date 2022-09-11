@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "dgSpecHash": "/7WpBgDTOq0rh1096xSri+vmmUNAwadBTT6VQ6wCMt9FtBh9jzg1uVSzeoqRd8RruR1wunfFbOyzzTUBs9KQPA==",
+  "success": true,
+  "projectFilePath": "/home/slomaxis/VSCodeProjects/CSP-OR/CSP-OR.csproj",
+  "expectedPackageFiles": [
+    "/home/slomaxis/.nuget/packages/google.ortools/9.4.1874/google.ortools.9.4.1874.nupkg.sha512",
+    "/home/slomaxis/.nuget/packages/google.ortools.runtime.linux-arm64/9.4.1874/google.ortools.runtime.linux-arm64.9.4.1874.nupkg.sha512",
+    "/home/slomaxis/.nuget/packages/google.ortools.runtime.linux-x64/9.4.1874/google.ortools.runtime.linux-x64.9.4.1874.nupkg.sha512",
+    "/home/slomaxis/.nuget/packages/google.ortools.runtime.osx-arm64/9.4.1874/google.ortools.runtime.osx-arm64.9.4.1874.nupkg.sha512",
+    "/home/slomaxis/.nuget/packages/google.ortools.runtime.osx-x64/9.4.1874/google.ortools.runtime.osx-x64.9.4.1874.nupkg.sha512",
+    "/home/slomaxis/.nuget/packages/google.ortools.runtime.win-x64/9.4.1874/google.ortools.runtime.win-x64.9.4.1874.nupkg.sha512",
+    "/home/slomaxis/.nuget/packages/google.protobuf/3.19.4/google.protobuf.3.19.4.nupkg.sha512",
+    "/home/slomaxis/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.8/microsoft.aspnetcore.app.ref.6.0.8.nupkg.sha512"
+  ],
+  "logs": []
+}
