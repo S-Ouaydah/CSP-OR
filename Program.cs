@@ -1,6 +1,13 @@
 ﻿using CSP;
 using Google.OrTools.LinearSolver;
 
+/*
+    new SOLVER
+    addCuts()
+    addScraps()
+    setStockSize()
+
+*/
 internal class SOLVER
 {
     static int stockSize ;
@@ -10,11 +17,11 @@ internal class SOLVER
     static List<Pattern> patterns = new List<Pattern>();
  
 
-    static void addCut(int size)=>cutList.Add(size);
-    static void addCut(int size,int num){
+    public void addCut(int size)=>cutList.Add(size);
+    public void addCut(int size,int num){
 		for (int i = 0; i < num; i++)cutList.Add(size);
 	}
-    static void addCuts(int[] sizes,int[] nums){
+    public void addCuts(int[] sizes,int[] nums){
 		for (var i = 0; i < sizes.Length; i++)
 		{
 			for (int j = 0;  j< nums[i]; j++)
@@ -23,11 +30,11 @@ internal class SOLVER
 			}
 		}
     } 
-	static void addPrevScrap(int length)=>scrapList.Add(length);
-	static void addPrevScrap(int length,int num){
+	public void addPrevScrap(int length)=>scrapList.Add(length);
+	public void addPrevScrap(int length,int num){
 		for (var i = 0; i < length; i++)scrapList.Add(length);	
 	}
-    static void addPrevScraps(int[] lenghts,int[] nums)
+    public void addPrevScraps(int[] lenghts,int[] nums)
     {
 		for (var i = 0; i < lenghts.Length; i++)
 		{
@@ -37,54 +44,41 @@ internal class SOLVER
 			}
 		}
     }
-    static void addStockSize(int size){
+    public void setStockSize(int size){
         stockSize = size;
     }
 
     private static void Main(string[] args)
     {
+        SOLVER solver = new SOLVER();
         //addCuts
         int[] testSizes = {4,5,7,12};
 		int[] testNums =  {4,2,3,1};
-		addCuts(testSizes,testNums);
+		solver.addCuts(testSizes,testNums);
         //addPreviousStocks
 		int[] testLengths = {4,6,10};
 		int[] testSnums = {1,2,2};        
-		addPrevScraps(testLengths,testSnums);
+		solver.addPrevScraps(testLengths,testSnums);
         //adddefaultstock
-        addStockSize(12);
+        solver.setStockSize(12);
         //Solve
+        solver.solve();
+        // MKS();
+        // binPack();
+        // joinNPrint();
+    }
+    public void solve(){
         MKS();
         binPack();
-        organizePatterns();
+        joinNPrint();
     }
 
-    private static void organizePatterns(){
-        List<Pattern> pats = new List<Pattern>();
-        foreach (Pattern pat in patterns)
-        {
-            if (!pats.Any()){
-                pats.Add(pat);
-            }
-            else{
-                bool found = false;
-                foreach (Pattern newpat in pats)
-                {
-                    if (pat.Equals(newpat))
-                    {
-                        found = true;
-                        newpat.count++;
-                    }
-                }    
-                if(!found) pats.Add(pat);
-            }
-        }
-        patterns = pats;
-        // Console.WriteLine(string.Join("",patterns));
-        
-        patterns.ForEach(pat=>pat.printPattern());
+    private static void joinNPrint(){
+        Pattern.joinSimilarPatterns(patterns);
+        patterns.ForEach(pat=>System.Console.WriteLine(pat.ToString()));
+        System.Console.WriteLine($"Total Waste is {Pattern.getTotalWaste(patterns)} unit.");
     }
-    private static void MKS()
+    private void MKS()
     {
 
 
@@ -156,8 +150,8 @@ internal class SOLVER
                 Console.WriteLine("Pattern uses: " + StockUtil);
                 patterns.Add(pat);
                 TotalUtil += StockUtil;
-                TotalWaste += data.Stocks[b]-StockUtil;
-                toBeRemoved.AddRange(pat.cuts);
+                TotalWaste += data.Stocks[b]-StockUtil; 
+                toBeRemoved.AddRange(pat.cuts);///wat?
             }
         Console.WriteLine("Total Stock used: " + TotalUtil);
             
@@ -171,13 +165,15 @@ internal class SOLVER
         }
     }
 
-    static void binPack(){
+    private void binPack(){
         // int[] testSizes = {1,2,3,4,5,7,12};
 		// int[] testNums =  {5,4,1,3,3,3,1};
 		// addCuts(testSizes,testNums);
 		// int[] testLengths = {12};
 		// int[] testSnums = {20};
 		// addPrevScraps(testLengths,testSnums);
+        Console.WriteLine("Bin Packing started \n");
+        
         foreach (var cut in cutList) stockList.Add(stockSize); 
         DataModel data = new DataModel(cutList,stockList);
         Solver solver = Solver.CreateSolver("SCIP");
@@ -258,16 +254,19 @@ internal class SOLVER
             if (y[j].SolutionValue() == 1)
             {
                 Console.WriteLine($"CutPlan{j}-{data.Stocks[j]}");
+                Pattern pat = new Pattern(stockSize);
                 for (int i = 0; i < data.NumCuts; ++i)
                 {
                     if (x[i, j].SolutionValue() == 1)
                     {
                         Console.WriteLine($"Cut{i} size:{data.Cuts[i]}");
+                        pat.addCut(data.Cuts[i]);
                         StockUsed += data.Cuts[i];
                     }
                 }
                 Console.WriteLine($"Sum cutplan weight: {StockUsed}");
                 TotalWeight += StockUsed;
+                patterns.Add(pat);
 				// data.waste += data.StockLength-StockUsed;
             }
         }
