@@ -16,7 +16,7 @@ namespace CSP
 //Construct
         public Pattern(int stockSize)
         {
-            this.patternId = "P"+stockSize;
+            this.patternId = "P-size:"+stockSize;
             this.stockSize = stockSize;
             this.stockLeft = stockSize;
         }
@@ -31,7 +31,7 @@ namespace CSP
         }
         public override string ToString()
         {
-            string planDesc = '{'+patternId+" numPlaceholder} ( ";
+            string planDesc = '{'+patternId+" lorem} ( ";
             foreach (var cut in cuts)
             {
                 // planDesc += '{'+cut.id+','+cut.size+'}';
