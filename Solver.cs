@@ -22,8 +22,8 @@ class Solver
 			}
 		}
     } 
-	public void addPrevScrap(int length)=>scrapList.Add(length);
-	public void addPrevScrap(int length,int num){
+	public void addPrevScraps(int length)=>scrapList.Add(length);
+	public void addPrevScraps(int length,int num){
 		for (var i = 0; i < length; i++)scrapList.Add(length);	
 	}
     public void addPrevScraps(int[] lenghts,int[] nums)

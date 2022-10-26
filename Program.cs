@@ -1,10 +1,8 @@
-﻿using CSP;
-
-/*
+﻿/*
     new Solver
-    .addCuts()
-    .addScraps()
-    .setStockSize()
+    .addCuts(int[] sizes,int[] numbers) || .addCut(int size,int num)
+    .addPrevScraps(int[] lenghts,int[] nums) || .addPrevScraps(int lenght,int num)
+    .setStockSize(int size)
     .solve()
 */
     Solver solver = new Solver();
